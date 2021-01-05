@@ -11,7 +11,7 @@ import glob
 import pandas as pd
 from datetime import datetime
 from argparse import ArgumentParser
-# sys.path.append(os.path.join(os.path.dirname(__file__)))
+sys.path.append(os.path.join(os.path.dirname(__file__)))
 # os.chdir(os.path.join(os.path.dirname(__file__)))
 def main():
     stime = datetime.now()
@@ -86,7 +86,7 @@ def mergeXYZ_pd(indir,outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','Z'],He
     df_mergeList = list()
     for fname in fList:
         if fname != 'merge.xyz':
-            print(fname)
+            # print(fname)
             df = pd.read_csv(fname,sep=' ',header=None)
             df_mergeList.append(df)
     df_merge = pd.concat(df_mergeList, axis=0) #row merge
@@ -96,7 +96,7 @@ def mergeXYZ_pd(indir,outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','Z'],He
     else: 
         df_merge.to_csv(outfname,index=None,header=None)
         
-mergeXYZ_pd(os.getcwd(),outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','Z'],Header='N',delimiter=' ')
+#mergeXYZ_pd(os.getcwd(),outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','Z'],Header='N',delimiter=' ')
 
 def mergeXYZ_py_large(indir,outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','Z'],Header='Y',inDelimiter=' ',outDelimiter=','):
     outfile = open(outfname,'w')
@@ -110,10 +110,12 @@ def mergeXYZ_py_large(indir,outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','
             with open(file,'r') as infile:
                 for line in infile:
                     line = line.replace(inDelimiter,outDelimiter)
-                    outfile.write(line)
+                    if line != '\n': 
+                        outfile.write(line)
+                        print(line)
     outfile.close()
 
-mergeXYZ_py_large(os.getcwd(),outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','Z'],Header='Y',inDelimiter=' ',outDelimiter='\t')
+#mergeXYZ_py_large(os.getcwd(),outfname='merge.xyz',Ext="*.xyz",colNames=['X','Y','Z'],Header='Y',inDelimiter=' ',outDelimiter='\t')
 
 
 def newFolderF(containFolder,newFolder='newFolder'):
